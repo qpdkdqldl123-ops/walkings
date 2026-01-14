@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>분석 결과</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .box {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      width: 320px;
+    }
+    input {
+      padding: 10px;
+      width: 100%;
+      box-sizing: border-box;
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #loading, #result {
+      display: none;
+    }
+    #result img {
+      max-width: 100%;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+    .loading {
+      font-size: 18px;
+      animation: blink 1.2s infinite;
+    }
+    @keyframes blink {
+      0% { opacity: 0.3; }
+      50% { opacity: 1; }
+      100% { opacity: 0.3; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="box">
+    <div id="step1">
+      <h3>코드를 입력해주세요</h3>
+      <input type="text" id="codeInput" placeholder="코드를 입력하세요">
+      <button onclick="goNext()">다음</button>
+    </div>
+
+    <div id="loading" class="loading">
+      데이터를 분석 중입니다…<br>
+      잠시만 기다려주세요
+    </div>
+
+    <div id="result">
+      <h3>분석 결과</h3>
+      <img id="resultImage" src="" alt="결과 이미지">
+    </div>
+  </div>
+
+  <script>
+    function goNext() {
+      const fullCode = document.getElementById("codeInput").value.trim();
+
+      if (fullCode === "") {
+        alert("코드를 입력해주세요.");
+        return;
+      }
+
+      const parts = fullCode.split("-");
+      const lastDigit = parts[parts.length - 1]; 
+
+      // 0번 항목에 walking.jpg를 추가했습니다.
+      const codeMap = {
+        "0": "walking.jpg",
+        "1": "one.jpg",
+        "2": "two.jpg",
+        "3": "three.jpg",
+        "4": "four.jpg",
+        "5": "five.jpg",
+        "6": "six.jpg",
+        "7": "seven.jpg",
+        "8": "eight.jpg",
+        "9": "nine.jpg"
+      };
+
+      if (codeMap[lastDigit]) {
+        document.getElementById("resultImage").src = codeMap[lastDigit];
+      } else {
+        // 안내 메시지도 0을 포함하도록 수정했습니다.
+        alert("올바른 코드를 입력해주세요. (예: 아무문자-0~9)");
+        return;
+      }
+
+      document.getElementById("step1").style.display = "none";
+      document.getElementById("loading").style.display = "block";
+
+      setTimeout(() => {
+        document.getElementById("loading").style.display = "none";
+        document.getElementById("result").style.display = "block";
+      }, 2500);
+    }
+  </script>
+
+</body>
+</html>
